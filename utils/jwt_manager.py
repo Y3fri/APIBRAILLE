@@ -13,7 +13,7 @@ def create_token(data: dict):
         to_encode.update({"exp": expire})
         encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)        
         return encoded_jwt
-    except JWTError as e:    
+    except JWTError as e:  
         raise HTTPException(status_code=500, detail="Error interno al generar el token")
 
 
