@@ -10,5 +10,10 @@ class Estado(Base):
 
     
     user = relationship("User", back_populates="estado")
+    af = relationship("Af", back_populates="estado")
+    gl = relationship("Gl", back_populates="estado")
+    mp = relationship("Mp", back_populates="estado")
+    qu = relationship("Qu", back_populates="estado")
+    vz = relationship("Vz", back_populates="estado")
     
     
