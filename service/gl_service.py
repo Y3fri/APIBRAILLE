@@ -42,6 +42,36 @@ class GlService():
             self.db.rollback()
             raise HTTPException(status_code=500, detail=str(e))
 
+    def get_gl_by_id(self,id:int) :
+        try:
+            result = self.db.query(GlModule).filter(GlModule.gl_id ==id).all()
+            gl_list = [
+                {
+                    "gl_id": gl.gl_id,
+                    "gl_idestado": gl.gl_idestado,
+                    "gl_fecha": gl.gl_fecha,
+                    "gl_hora": gl.gl_hora,
+                    "gl_unol": gl.gl_unol,
+                    "gl_dosl": gl.gl_dosl,
+                    "gl_tresl": gl.gl_tresl,
+                    "gl_cuatrol": gl.gl_cuatrol,
+                    "gl_cincol": gl.gl_cincol,
+                    "gl_seisl": gl.gl_seisl,
+                    "gl_unos": gl.gl_unos,
+                    "gl_doss": gl.gl_doss,
+                    "gl_tress": gl.gl_tress,
+                    "gl_cuatros": gl.gl_cuatros,
+                    "gl_cincos": gl.gl_cincos,
+                    "gl_seiss": gl.gl_seiss,
+                    "nombre_estado": gl.estado.est_nombre,
+                }
+                for gl in result
+            ]
+            return gl_list
+        except Exception as e:
+            self.db.rollback()
+            raise HTTPException(status_code=500, detail=str(e))
+
         
     def create_gl(self, gl: Gl):
         try:

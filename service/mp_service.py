@@ -39,6 +39,35 @@ class MpService():
         except Exception as e:
             self.db.rollback()
             raise HTTPException(status_code=500, detail=str(e))
+        
+
+    def get_mp_by_id(self,id:int) :
+        try:
+            result = self.db.query(MpModule).filter(MpModule.mp_id==id).all()
+            mp_list = [
+                {
+                    "mp_id": mp.mp_id,
+                    "mp_idestado": mp.mp_idestado,
+                    "mp_fecha": mp.mp_fecha,
+                    "mp_hora": mp.mp_hora,
+                    "mp_unol": mp.mp_unol,
+                    "mp_dosl": mp.mp_dosl,
+                    "mp_tresl": mp.mp_tresl,
+                    "mp_cuatrol": mp.mp_cuatrol,
+                    "mp_cincol": mp.mp_cincol,                    
+                    "mp_unos": mp.mp_unos,
+                    "mp_doss": mp.mp_doss,
+                    "mp_tress": mp.mp_tress,
+                    "mp_cuatros": mp.mp_cuatros,
+                    "mp_cincos": mp.mp_cincos,                    
+                    "nombre_estado": mp.estado.est_nombre,
+                }
+                for mp in result
+            ]
+            return mp_list
+        except Exception as e:
+            self.db.rollback()
+            raise HTTPException(status_code=500, detail=str(e))
 
         
     def create_mp(self, mp: Mp):

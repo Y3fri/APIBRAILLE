@@ -9,6 +9,7 @@ from routers.gl import gl_router
 from routers.mp import mp_router
 from routers.qu import qu_router
 from routers.vz import vz_router
+from routers.audios import audio_router
 
 app = FastAPI(
     title= 'BRAILLE',
@@ -37,6 +38,7 @@ app.include_router(gl_router)
 app.include_router(mp_router)
 app.include_router(qu_router)
 app.include_router(vz_router)
+app.include_router(audio_router)
 
 
 Base.metadata.create_all(bind=engine)

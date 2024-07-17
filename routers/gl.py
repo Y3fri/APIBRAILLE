@@ -22,6 +22,17 @@ def get_gl()-> List [Gl]:
         finally:
                 db.close()
 
+@gl_router.get('/gl/{id}',tags=['Gl'], response_model=list[Gl])
+def get_gl(id:int)-> List [Gl]:
+        db = Session()
+        try:
+                result = GlService(db).get_gl_by_id(id)
+                return JSONResponse(content= jsonable_encoder(result))
+        except Exception as e:        
+                return JSONResponse(content={"error": f"Error al obtener los Gls: {str(e)}"}, status_code=500)
+        finally:
+                db.close()                
+
 @gl_router.post('/gl',tags=['Gl'],response_model=dict)
 def create_gl(gl:Gl)-> dict:
         db = Session()

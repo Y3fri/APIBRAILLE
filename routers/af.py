@@ -22,6 +22,17 @@ def get_af()-> List [Af]:
         finally:
                 db.close()
 
+@af_router.get('/af/{id}',tags=['Af'], response_model=list[Af])
+def get_af(id:int)-> List [Af]:
+        db = Session()
+        try:
+                result = AfService(db).get_af_by_id(id)
+                return JSONResponse(content= jsonable_encoder(result))
+        except Exception as e:        
+                return JSONResponse(content={"error": f"Error al obtener los Afs: {str(e)}"}, status_code=500)
+        finally:
+                db.close()
+
 @af_router.post('/af',tags=['Af'],response_model=dict)
 def create_af(af:Af)-> dict:
         db = Session()

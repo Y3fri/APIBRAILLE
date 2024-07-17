@@ -40,6 +40,33 @@ class VzService():
             self.db.rollback()
             raise HTTPException(status_code=500, detail=str(e))
 
+    def get_vz_by_id(self,id:int) :
+        try:
+            result = self.db.query(VzModule).filter(VzModule.vz_id==id).all()
+            vz_list = [
+                {
+                    "vz_id": vz.vz_id,
+                    "vz_idestado": vz.vz_idestado,
+                    "vz_fecha": vz.vz_fecha,
+                    "vz_hora": vz.vz_hora,
+                    "vz_unol": vz.vz_unol,
+                    "vz_dosl": vz.vz_dosl,
+                    "vz_tresl": vz.vz_tresl,
+                    "vz_cuatrol": vz.vz_cuatrol,
+                    "vz_cincol": vz.vz_cincol,                    
+                    "vz_unos": vz.vz_unos,
+                    "vz_doss": vz.vz_doss,
+                    "vz_tress": vz.vz_tress,
+                    "vz_cuatros": vz.vz_cuatros,
+                    "vz_cincos": vz.vz_cincos,                    
+                    "nombre_estado": vz.estado.est_nombre,
+                }
+                for vz in result
+            ]
+            return vz_list
+        except Exception as e:
+            self.db.rollback()
+            raise HTTPException(status_code=500, detail=str(e))
         
     def create_vz(self, vz: Vz):
         try:

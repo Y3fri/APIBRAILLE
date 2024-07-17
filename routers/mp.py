@@ -22,6 +22,17 @@ def get_mp()-> List [Mp]:
         finally:
                 db.close()
 
+@mp_router.get('/mp/{id}',tags=['Mp'], response_model=list[Mp])
+def get_mp(id:int)-> List [Mp]:
+        db = Session()
+        try:
+                result = MpService(db).get_mp_by_id(id)
+                return JSONResponse(content= jsonable_encoder(result))
+        except Exception as e:        
+                return JSONResponse(content={"error": f"Error al obtener los Mps: {str(e)}"}, status_code=500)
+        finally:
+                db.close()
+
 @mp_router.post('/mp',tags=['Mp'],response_model=dict)
 def create_mp(mp:Mp)-> dict:
         db = Session()

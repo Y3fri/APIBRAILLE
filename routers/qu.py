@@ -22,6 +22,17 @@ def get_qu()-> List [Qu]:
         finally:
                 db.close()
 
+@qu_router.get('/qu/{id}',tags=['Qu'], response_model=list[Qu])
+def get_qu(id:int)-> List [Qu]:
+        db = Session()
+        try:
+                result = QuService(db).get_qu_by_id(id)
+                return JSONResponse(content= jsonable_encoder(result))
+        except Exception as e:        
+                return JSONResponse(content={"error": f"Error al obtener los Qus: {str(e)}"}, status_code=500)
+        finally:
+                db.close()
+
 @qu_router.post('/qu',tags=['Qu'],response_model=dict)
 def create_qu(qu:Qu)-> dict:
         db = Session()

@@ -42,7 +42,36 @@ class AfService():
             self.db.rollback()
             raise HTTPException(status_code=500, detail=str(e))
 
-        
+    def get_af_by_id(self,id:int) :
+        try:
+            result = self.db.query(AfModule).filter(AfModule.af_id==id).all()
+            af_list = [
+                {
+                    "af_id": af.af_id,
+                    "af_idestado": af.af_idestado,
+                    "af_fecha": af.af_fecha,
+                    "af_hora": af.af_hora,
+                    "af_unol": af.af_unol,
+                    "af_dosl": af.af_dosl,
+                    "af_tresl": af.af_tresl,
+                    "af_cuatrol": af.af_cuatrol,
+                    "af_cincol": af.af_cincol,
+                    "af_seisl": af.af_seisl,
+                    "af_unos": af.af_unos,
+                    "af_doss": af.af_doss,
+                    "af_tress": af.af_tress,
+                    "af_cuatros": af.af_cuatros,
+                    "af_cincos": af.af_cincos,
+                    "af_seiss": af.af_seiss,
+                    "nombre_estado": af.estado.est_nombre,
+                }
+                for af in result
+            ]
+            return af_list
+        except Exception as e:
+            self.db.rollback()
+            raise HTTPException(status_code=500, detail=str(e))
+
     def create_af(self, af: Af):
         try:
             current_datetime = datetime.now(local_timezone)

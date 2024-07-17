@@ -40,7 +40,34 @@ class QuService():
             self.db.rollback()
             raise HTTPException(status_code=500, detail=str(e))
 
-        
+    def get_qu_by_id(self,id:int) :
+        try:
+            result = self.db.query(QuModule).filter(QuModule.qu_id==id).all()
+            qu_list = [
+                {
+                    "qu_id": qu.qu_id,
+                    "qu_idestado": qu.qu_idestado,
+                    "qu_fecha": qu.qu_fecha,
+                    "qu_hora": qu.qu_hora,
+                    "qu_unol": qu.qu_unol,
+                    "qu_dosl": qu.qu_dosl,
+                    "qu_tresl": qu.qu_tresl,
+                    "qu_cuatrol": qu.qu_cuatrol,
+                    "qu_cincol": qu.qu_cincol,                    
+                    "qu_unos": qu.qu_unos,
+                    "qu_doss": qu.qu_doss,
+                    "qu_tress": qu.qu_tress,
+                    "qu_cuatros": qu.qu_cuatros,
+                    "qu_cincos": qu.qu_cincos,                    
+                    "nombre_estado": qu.estado.est_nombre,
+                }
+                for qu in result
+            ]
+            return qu_list
+        except Exception as e:
+            self.db.rollback()
+            raise HTTPException(status_code=500, detail=str(e))
+
     def create_qu(self, qu: Qu):
         try:
             current_datetime = datetime.now(local_timezone)
