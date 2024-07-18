@@ -1,7 +1,8 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from typing import List
 from config.database import Session
+from middlewares.jwt_bearer import JWTBearer
 from models.gl import Gl
 from fastapi.encoders import jsonable_encoder
 from service.gl_service import GlService
@@ -11,7 +12,7 @@ from schemas.gl import Gl
 gl_router = APIRouter()
 
 
-@gl_router.get('/gl',tags=['Gl'], response_model=list[Gl])
+@gl_router.get('/gl',tags=['Gl'], response_model=list[Gl],dependencies=[Depends(JWTBearer())])
 def get_gl()-> List [Gl]:
         db = Session()
         try:
@@ -22,7 +23,7 @@ def get_gl()-> List [Gl]:
         finally:
                 db.close()
 
-@gl_router.get('/gl/{id}',tags=['Gl'], response_model=list[Gl])
+@gl_router.get('/gl/{id}',tags=['Gl'], response_model=list[Gl],dependencies=[Depends(JWTBearer())])
 def get_gl(id:int)-> List [Gl]:
         db = Session()
         try:
@@ -43,7 +44,7 @@ def create_gl(gl:Gl)-> dict:
                 return JSONResponse(content={"error": f"Error al insertar los datos: {str(e)}"}, status_code=500)
 
 
-@gl_router.put('/gl/{id}', tags=['Gl'], response_model=dict)
+@gl_router.put('/gl/{id}', tags=['Gl'], response_model=dict,dependencies=[Depends(JWTBearer())])
 def update_gl(id: int, gl: Gl) -> dict:
         db = Session()
         try:               

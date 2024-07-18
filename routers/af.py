@@ -1,7 +1,8 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from typing import List
 from config.database import Session
+from middlewares.jwt_bearer import JWTBearer
 from models.af import Af
 from fastapi.encoders import jsonable_encoder
 from service.af_service import AfService
@@ -11,7 +12,7 @@ from schemas.af import Af
 af_router = APIRouter()
 
 
-@af_router.get('/af',tags=['Af'], response_model=list[Af])
+@af_router.get('/af',tags=['Af'], response_model=list[Af],dependencies=[Depends(JWTBearer())])
 def get_af()-> List [Af]:
         db = Session()
         try:
@@ -22,7 +23,7 @@ def get_af()-> List [Af]:
         finally:
                 db.close()
 
-@af_router.get('/af/{id}',tags=['Af'], response_model=list[Af])
+@af_router.get('/af/{id}',tags=['Af'], response_model=list[Af],dependencies=[Depends(JWTBearer())])
 def get_af(id:int)-> List [Af]:
         db = Session()
         try:
@@ -43,7 +44,7 @@ def create_af(af:Af)-> dict:
                 return JSONResponse(content={"error": f"Error al insertar los datos: {str(e)}"}, status_code=500)
 
 
-@af_router.put('/af/{id}', tags=['Af'], response_model=dict)
+@af_router.put('/af/{id}', tags=['Af'], response_model=dict,dependencies=[Depends(JWTBearer())])
 def update_af(id: int, af: Af) -> dict:
         db = Session()
         try:               

@@ -1,7 +1,8 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from typing import List
 from config.database import Session
+from middlewares.jwt_bearer import JWTBearer
 from models.mp import Mp
 from fastapi.encoders import jsonable_encoder
 from service.mp_service import MpService
@@ -11,7 +12,7 @@ from schemas.mp import Mp
 mp_router = APIRouter()
 
 
-@mp_router.get('/mp',tags=['Mp'], response_model=list[Mp])
+@mp_router.get('/mp',tags=['Mp'], response_model=list[Mp],dependencies=[Depends(JWTBearer())])
 def get_mp()-> List [Mp]:
         db = Session()
         try:
@@ -22,7 +23,7 @@ def get_mp()-> List [Mp]:
         finally:
                 db.close()
 
-@mp_router.get('/mp/{id}',tags=['Mp'], response_model=list[Mp])
+@mp_router.get('/mp/{id}',tags=['Mp'], response_model=list[Mp],dependencies=[Depends(JWTBearer())])
 def get_mp(id:int)-> List [Mp]:
         db = Session()
         try:
@@ -33,7 +34,7 @@ def get_mp(id:int)-> List [Mp]:
         finally:
                 db.close()
 
-@mp_router.post('/mp',tags=['Mp'],response_model=dict)
+@mp_router.post('/mp',tags=['Mp'],response_model=dict,dependencies=[Depends(JWTBearer())])
 def create_mp(mp:Mp)-> dict:
         db = Session()
         try:

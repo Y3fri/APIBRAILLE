@@ -1,7 +1,8 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from typing import List
 from config.database import Session
+from middlewares.jwt_bearer import JWTBearer
 from models.vz import Vz
 from fastapi.encoders import jsonable_encoder
 from service.vz_service import VzService
@@ -11,7 +12,7 @@ from schemas.vz import Vz
 vz_router = APIRouter()
 
 
-@vz_router.get('/vz',tags=['Vz'], response_model=list[Vz])
+@vz_router.get('/vz',tags=['Vz'], response_model=list[Vz],dependencies=[Depends(JWTBearer())])
 def get_vz()-> List [Vz]:
         db = Session()
         try:
@@ -22,7 +23,7 @@ def get_vz()-> List [Vz]:
         finally:
                 db.close()
 
-@vz_router.get('/vz/{id}',tags=['Vz'], response_model=list[Vz])
+@vz_router.get('/vz/{id}',tags=['Vz'], response_model=list[Vz],dependencies=[Depends(JWTBearer())])
 def get_vz(id:int)-> List [Vz]:
         db = Session()
         try:
@@ -43,7 +44,7 @@ def create_vz(vz:Vz)-> dict:
                 return JSONResponse(content={"error": f"Error al insertar los datos: {str(e)}"}, status_code=500)
 
 
-@vz_router.put('/vz/{id}', tags=['Vz'], response_model=dict)
+@vz_router.put('/vz/{id}', tags=['Vz'], response_model=dict,dependencies=[Depends(JWTBearer())])
 def update_vz(id: int, vz: Vz) -> dict:
         db = Session()
         try:               

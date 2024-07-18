@@ -15,7 +15,7 @@ from schemas.user_usu import User_usu
 user_router = APIRouter()
 
 
-@user_router.get('/user',tags=['Usuario'], response_model=list[User])
+@user_router.get('/user',tags=['Usuario'], response_model=list[User],dependencies=[Depends(JWTBearer())])
 def get_user()-> List [User]:
         db = Session()
         try:
@@ -36,7 +36,7 @@ def create_usuario(usuario:User)-> dict:
                 return JSONResponse(content={"error": f"Error al insertar los datos: {str(e)}"}, status_code=500)
 
 
-@user_router.put('/user/{id}', tags=['Usuario'], response_model=dict)
+@user_router.put('/user/{id}', tags=['Usuario'], response_model=dict,dependencies=[Depends(JWTBearer())])
 def update_user(id: int, user: User) -> dict:
         db = Session()
         try:               
