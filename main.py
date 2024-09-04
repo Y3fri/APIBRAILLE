@@ -18,7 +18,7 @@ app = FastAPI(
 
 
 origins = [    
-    "http://localhost:3000", 
+    "http://localhost:3000",
     "https://master--codebraille.netlify.app",
 ]
 
