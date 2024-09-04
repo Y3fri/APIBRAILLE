@@ -2,7 +2,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-def send_registration_email(email,nickname):        
+def send_registration_email(email,nickname,clave):        
             smtp_server = "smtp.gmail.com" 
             smtp_port = 587
             smtp_username = "yeferguzman11@gmail.com"
@@ -32,7 +32,8 @@ def send_registration_email(email,nickname):
             <div class="container">
                 <h1>Bienvenido a *****</h1>
                 <p>Haz un mundo mejor y reclica con nosotros.Este es tu nickname</p>
-                <p><strong>Nickname:</strong> {nickname}</p>                
+                <p><strong>Nickname:</strong> {nickname}</p>      
+                <p><strong>Contraseña:</strong> {clave}</p>           
             </div>
         </body>
         </html>
