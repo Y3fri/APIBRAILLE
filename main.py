@@ -18,8 +18,8 @@ app = FastAPI(
 
 
 origins = [    
-    "http://localhost:3000",
-    "https://master--codebraille.netlify.app",
+    "http://localhost:3000", 
+    "https://codebraille.netlify.app",
 ]
 
 app.add_middleware(
@@ -38,6 +38,7 @@ app.include_router(hn_router)
 app.include_router(nt_router)
 app.include_router(uz_router)
 app.include_router(audio_router)
+
 
 
 Base.metadata.create_all(bind=engine)
