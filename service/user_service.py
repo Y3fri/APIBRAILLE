@@ -82,15 +82,14 @@ class UserService():
         return user
    
     def create_user_session(self, user_id: int, token: str) -> UserSessionModule:
-        try:
+        try:            
             existing_session = self.db.query(UserSessionModule).filter_by(uses_iduser=user_id).first()
             current_time = datetime.now(local_timezone)
             
-            if existing_session:
-                if existing_session.uses_active:
-                    if current_time > existing_session.uses_expiration_timestamp.astimezone(local_timezone):
-                        self.deactivate_user_session(user_id)
-                        # Existing session is deactivated, create a new one
+            if existing_session:                
+                if existing_session.uses_active:                    
+                    if current_time > existing_session.uses_expiration_timestamp.astimezone(local_timezone):                        
+                        self.deactivate_user_session(user_id)                        
                         new_session = UserSessionModule(
                             uses_iduser=user_id,
                             uses_token=token,
@@ -103,8 +102,10 @@ class UserService():
                         self.db.refresh(new_session)
                         return new_session
                     else:
+                        # La sesión todavía está activa y no ha expirado
                         raise HTTPException(status_code=400, detail="Ya hay una sesión activa para este usuario.")
                 else:
+                    # La sesión existe pero no está activa (probablemente ha sido desactivada)
                     existing_session.uses_token = token
                     existing_session.uses_expiration_timestamp = current_time + timedelta(minutes=120)
                     existing_session.uses_created_at = current_time
@@ -113,6 +114,7 @@ class UserService():
                     self.db.refresh(existing_session)
                     return existing_session
             else:
+                # No existe ninguna sesión para el usuario, crea una nueva
                 new_session = UserSessionModule(
                     uses_iduser=user_id,
                     uses_token=token,
@@ -124,6 +126,7 @@ class UserService():
                 self.db.commit()
                 self.db.refresh(new_session)
                 return new_session
+
         except HTTPException as http_error:
             raise http_error
         except Exception as e:
