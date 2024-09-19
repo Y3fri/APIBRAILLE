@@ -94,7 +94,7 @@ class UserService():
                         new_session = UserSessionModule(
                             uses_iduser=user_id,
                             uses_token=token,
-                            uses_expiration_timestamp=current_time + timedelta(minutes=480),
+                            uses_expiration_timestamp=current_time + timedelta(minutes=120),
                             uses_created_at=current_time,
                             uses_active=True
                         )
@@ -106,7 +106,7 @@ class UserService():
                         raise HTTPException(status_code=400, detail="Ya hay una sesión activa para este usuario.")
                 else:
                     existing_session.uses_token = token
-                    existing_session.uses_expiration_timestamp = current_time + timedelta(minutes=480)
+                    existing_session.uses_expiration_timestamp = current_time + timedelta(minutes=120)
                     existing_session.uses_created_at = current_time
                     existing_session.uses_active = True
                     self.db.commit()
@@ -116,7 +116,7 @@ class UserService():
                 new_session = UserSessionModule(
                     uses_iduser=user_id,
                     uses_token=token,
-                    uses_expiration_timestamp=current_time + timedelta(minutes=480),
+                    uses_expiration_timestamp=current_time + timedelta(minutes=120),
                     uses_created_at=current_time,
                     uses_active=True
                 )

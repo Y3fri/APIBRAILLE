@@ -4,7 +4,7 @@ from jose import JWTError, jwt
 
 SECRET_KEY = "<s^t@>5rPi9(N^qzG=t1M:;N&uP?/f:#j&:QcIMO{)Q3daAXW=E&2+wIsHJs8ly"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 480
+ACCESS_TOKEN_EXPIRE_MINUTES = 120
 
 def create_token(data: dict):
     try:
