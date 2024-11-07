@@ -9,7 +9,7 @@ def send_reset_password_email(email: str, verification_code: str):
 
     
     sender_email = 'yeferguzman11@gmail.com'  
-    sender_password = 'kepm prma yrip umuk' 
+    sender_password = 'czew ormv scvm ilzd' 
 
     
     msg = MIMEMultipart()

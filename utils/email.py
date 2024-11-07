@@ -6,7 +6,7 @@ def send_registration_email(email,nickname,clave):
             smtp_server = "smtp.gmail.com" 
             smtp_port = 587
             smtp_username = "yeferguzman11@gmail.com"
-            smtp_password = "kepm prma yrip umuk"
+            smtp_password = "czew ormv scvm ilzd"
             
             subject = "Registro exitoso"
             body =f"""
